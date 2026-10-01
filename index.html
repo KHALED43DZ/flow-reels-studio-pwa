@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>استوديو ريلز Flow</title>
+<meta name="theme-color" content="#0e1a2b">
+<meta name="description" content="استوديو ريلز Flow: توليد مشاهد وبرومبتات وحزمة نشر لفيديوهات تيك توك">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" type="image/png" href="./icons/icon-192.png">
+<link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="ريلز Flow">
+<style>
+:root{--bg:#0e1a2b;--sf:#16263d;--ln:#27405f;--tx:#e9eef5;--mu:#93a6bd;--ch:#ffc857;--pl:#4fd8e0;--ac:#ff6b81}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.7 Tahoma,"Segoe UI",system-ui,sans-serif;padding:12px;max-width:860px;margin-inline:auto}
+h1{font-size:22px;margin:6px 0 2px}h2{font-size:17px;margin:18px 0 8px}
+p.s{color:var(--mu);margin:0 0 10px;font-size:14px}
+nav{display:flex;gap:6px;margin:10px 0}
+nav button{flex:1;padding:10px 4px;background:var(--sf);color:var(--mu);border:1px solid var(--ln);border-radius:8px;font:inherit;cursor:pointer}
+nav button.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+.box{background:var(--sf);border:1px solid var(--ln);border-radius:10px;padding:12px;margin-bottom:10px}
+label{display:block;font-size:14px;color:var(--mu);margin:8px 0 3px}
+input,select,textarea{width:100%;background:#0b1523;color:var(--tx);border:1px solid var(--ln);border-radius:8px;padding:9px;font:inherit}
+textarea{min-height:70px;resize:vertical}
+.row{display:flex;gap:8px}.row>*{flex:1}
+button.b{background:var(--ac);color:#fff;border:0;border-radius:8px;padding:10px 14px;font:inherit;cursor:pointer}
+button.g{background:transparent;color:var(--tx);border:1px solid var(--ln);border-radius:8px;padding:6px 10px;font:inherit;font-size:14px;cursor:pointer}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--pl);outline-offset:2px}
+.pr{direction:ltr;text-align:left;background:#0b1523;border-radius:8px;padding:10px;font-size:14px;line-height:1.8;white-space:pre-wrap}
+.c{color:var(--ch);font-weight:700;background:#ffc85722;border-radius:4px;padding:0 3px}
+.p{color:var(--pl);font-weight:700;background:#4fd8e022;border-radius:4px;padding:0 3px}
+.lg{font-size:13px;color:var(--mu)}
+.sc h3{margin:0 0 6px;font-size:15px;display:flex;justify-content:space-between;align-items:center;gap:6px}
+.acts{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.nar{margin-top:8px;font-size:15px}.os{color:var(--mu);font-size:14px}
+.tag{display:inline-block;margin:2px;padding:2px 9px;border-radius:99px;font-size:14px}
+.ok label{display:flex;gap:8px;align-items:flex-start;color:var(--tx);font-size:14px;margin:4px 0}
+.ok input{width:auto;margin-top:6px}
+.hid{display:none}#st{color:var(--ch);min-height:24px;font-size:14px}
+.fl{display:flex;gap:6px;align-items:center;padding:6px 0;border-bottom:1px solid var(--ln);font-size:14px}
+.fl span{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;direction:ltr;text-align:right}
+video{width:100%;max-height:420px;border-radius:8px;background:#000}
+</style>
+</head>
+<body>
+<h1>استوديو ريلز Flow</h1>
+<p class="s">فكرة واحدة ← حزمة كاملة: مشاهد جاهزة للصق في Flow، أسماء الشخصيات والأماكن ملوّنة، حزمة نشر لتيك توك، ثم تجميع المقاطع.</p>
+<nav><button class="on" data-t="t1">1 الإعداد</button><button data-t="t2">2 الحزمة</button><button data-t="t3">3 التجميع</button></nav>
+
+<section id="t1">
+ <div class="box">
+  <label>مفاتيح Gemini (مفتاح في كل سطر — يُدوَّر تلقائياً عند نفاد الحصة)</label>
+  <textarea id="keys" placeholder="AIza..." dir="ltr"></textarea>
+  <label>النموذج</label>
+  <input id="model" list="ml" value="gemini-2.5-flash" dir="ltr"><datalist id="ml"><option>gemini-2.5-flash</option><option>gemini-2.5-pro</option><option>gemini-2.0-flash</option></datalist>
+  <label style="display:flex;gap:8px;align-items:center;color:var(--tx)"><input type="checkbox" id="sk" checked style="width:auto">احفظ المفاتيح على هذا الجهاز</label>
+  <label>مشاريع محفوظة</label><select id="pj"></select>
+ </div>
+ <div class="box">
+  <label>فكرتك (اختيارية — اتركها فارغة ليبحث التطبيق في الترند ويولّد الفكرة)</label>
+  <textarea id="idea" placeholder="مثال: قصة الأسد والثور من كليلة ودمنة بأسلوب سينمائي مشوّق"></textarea>
+  <label style="display:flex;gap:8px;align-items:center;color:var(--tx)"><input type="checkbox" id="tr" checked style="width:auto">ابحث في الفيديوهات الأكثر انتشاراً واستلهم منها</label>
+  <label>نطاق الترند</label><select id="reg"><option>العالم العربي</option><option>العالم</option><option>الجزائر</option><option>فرنسا والعالم الفرنكوفوني</option></select>
+  <div class="row">
+   <div><label>المجال</label><select id="niche"><option>حكايات وقصص</option><option>تاريخ وغموض</option><option>معلومات وثقافة</option><option>قصص أطفال</option><option>تحفيز</option><option>رعب خفيف</option></select></div>
+   <div><label>عدد المشاهد (كل مشهد 8 ث)</label><select id="n"><option value="8">8 ≈ 64 ثانية</option><option value="9" selected>9 ≈ 72 ثانية</option><option value="10">10 ≈ 80 ثانية</option><option value="12">12 ≈ 96 ثانية</option></select></div>
+  </div>
+  <label>الأسلوب البصري (غيّره بين الفيديوهات)</label><select id="sty"><option>cinematic photorealistic</option><option>3D animated, Pixar-like but original</option><option>watercolor storybook</option><option>anime, original characters</option><option>claymation stop-motion</option><option>dark moody noir</option></select>
+  <label>تعليمات إضافية (اختياري)</label>
+  <input id="extra" placeholder="شخصيات معينة، نهاية مفتوحة، لهجة...">
+  <div style="margin-top:12px"><button class="b" id="go">أنشئ الحزمة (الفكرة تلقائية)</button></div>
+  <div id="st"></div>
+ </div>
+</section>
+
+<section id="t2" class="hid"><p class="s">لم تُنشأ حزمة بعد. ابدأ من تبويب الإعداد.</p></section>
+
+<section id="t3" class="hid">
+ <div class="box">
+  <p class="s">اختر مقاطع Flow التي نزّلتها، رتّبها، ثم ادمجها في ملف عمودي 1080×1920 مع الصوت. يتم الدمج بزمن التشغيل الفعلي، فأبقِ هذا التبويب مفتوحاً.</p>
+  <input type="file" id="files" accept="video/*" multiple>
+  <label style="display:flex;gap:8px;align-items:center;color:var(--tx)"><input type="checkbox" id="sub" checked style="width:auto">اطبع «النص على الشاشة» لكل مشهد على الفيديو</label>
+  <div id="fl"></div>
+  <div class="acts"><button class="b" id="mg">ادمج المقاطع</button></div>
+  <div id="ms" class="s"></div>
+  <video id="pv" controls class="hid"></video>
+  <a id="dl" class="hid"><button class="g" style="margin-top:8px">تنزيل الفيديو</button></a>
+ </div>
+</section>
+
+<script>
+const $=s=>document.querySelector(s);let D=null,PREV=null,files=[],rot=0;
+try{$('#keys').value=localStorage.gk||'';$('#model').value=localStorage.gm||'gemini-2.5-flash'}catch(e){}
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>tab(b.dataset.t));
+function tab(t){document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.t==t));['t1','t2','t3'].forEach(i=>$('#'+i).classList.toggle('hid',i!=t))}
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const rx=s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+const wb=k=>{const e=rx(esc(k));return /^[\x00-\x7f]+$/.test(k)?'(?<![A-Za-z0-9])'+e+'(?![A-Za-z0-9])':e};
+const has=(t,k)=>new RegExp(wb(k),'i').test(esc(t));
+async function js(p){for(let i=0;i<2;i++){const r=await gem(p);try{const t=r.t;return JSON.parse(t.slice(t.indexOf('{'),t.lastIndexOf('}')+1))}catch(e){}}throw Error('استجابة غير صالحة من Gemini، أعد المحاولة')}
+const store=()=>{try{return JSON.parse(localStorage.rp||'[]')}catch(e){return[]}};
+function save(){if(!D)return;try{D.id=D.id||Date.now();localStorage.rp=JSON.stringify([D,...store().filter(x=>x.id!=D.id)].slice(0,20))}catch(e){}pl()}
+function pl(){$('#pj').innerHTML='<option value="">— مشاريع محفوظة —</option>'+store().map(x=>`<option value="${x.id}">${esc(x.title)}</option>`).join('')}
+$('#pj').onchange=()=>{const x=store().find(y=>y.id==$('#pj').value);if(x){D=x;render();tab('t2')}};
+pl();
+
+async function gem(prompt,web){
+ const ks=$('#keys').value.split('\n').map(k=>k.trim()).filter(Boolean),m=$('#model').value;
+ if(!ks.length)throw Error('أضف مفتاح Gemini واحداً على الأقل');
+ try{if($('#sk').checked)localStorage.gk=$('#keys').value;else delete localStorage.gk;localStorage.gm=m}catch(e){}
+ let err='';
+ for(let round=0;round<2;round++){ if(round){$('#st').textContent='انتظار قبل المحاولة الأخيرة…';await new Promise(r=>setTimeout(r,6000))}
+ for(let i=0;i<ks.length;i++){
+  const j=(rot+i)%ks.length;
+  $('#st').textContent='جارٍ التوليد بالمفتاح '+(j+1)+' من '+ks.length+'…';
+  try{
+   const r=await fetch('https://generativelanguage.googleapis.com/v1beta/models/'+m+':generateContent',{method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':ks[j]},body:JSON.stringify(web?{contents:[{parts:[{text:prompt}]}],tools:[{google_search:{}}]}:{contents:[{parts:[{text:prompt}]}],generationConfig:{responseMimeType:'application/json',temperature:.9}})});
+   const d=await r.json();
+   if(r.ok){rot=j;const c=d.candidates[0];return{t:c.content.parts.map(p=>p.text||'').join(''),src:(c.groundingMetadata?.groundingChunks||[]).map(x=>x.web).filter(Boolean)}}
+   err='مفتاح '+(j+1)+': '+(d.error?.message||r.status);
+  }catch(e){err='مفتاح '+(j+1)+': '+e.message}
+ }
+ }
+ throw Error('فشلت كل المفاتيح. '+err);
+}
+
+$('#go').onclick=async()=>{
+ let idea=$('#idea').value.trim(),brief='',src=[];
+ const n=+$('#n').value;
+ const mk=()=>`You are a viral short-form video producer for TikTok, using Google Flow (Veo 3) to generate 8-second clips.
+Topic: ${idea}
+${brief?'Trend research (use the winning pattern, never copy a video):\n'+brief+'\n':''}Niche: ${$('#niche').value}. Visual style (apply to every prompt): ${$('#sty').value}. ${PREV?'CONTINUATION of a previous episode, keep the same characters and places exactly: '+JSON.stringify(PREV)+'. ':''}Extra notes: ${$('#extra').value||'none'}.
+Create exactly ${n} scenes (total ~${n*8}s, must exceed 60 seconds). Rules:
+- Scene 1 is a 3-second-grabbing hook with a question or shocking visual; the last scene ends with a loop-back or a comment-baiting question.
+- Story must be 100% original, no copyrighted characters, brands, or music, no real people.
+- Vertical 9:16, family-safe.
+- hooks: 3 alternative opening hooks scored 1-10 for scroll-stopping power; "hook" is the best one.
+- Invent a small cast and 1-3 places. Give each a short English name (en), Arabic name (ar) and a fixed visual description in English (look) used for consistency.
+- ref_prompt_en (inside every character and every place): a self-contained English image-generation prompt for a reference image in the same visual style. Character: full-body character sheet, neutral pose, front/side/back views, plain light background. Place: wide establishing shot with no people. Use the exact look description, no text, no watermark, vertical 9:16.
+- prompt_en: a self-contained English Veo prompt: shot type, camera move, action, lighting, mood, ambient sound, and spoken dialogue in Arabic in quotes if any. Mention characters and place ONLY by their exact en names. No on-screen text.
+- narration_ar: the Arabic narration/dialogue of the scene (short, punchy). onscreen_ar: short Arabic caption (max 6 words).
+Return ONLY JSON:
+{"idea_ar":"","title":"","hook":"","hooks":[{"text":"","score":0}],"characters":[{"ar":"","en":"","look":"","ref_prompt_en":""}],"places":[{"ar":"","en":"","look":"","ref_prompt_en":""}],"scenes":[{"prompt_en":"","narration_ar":"","onscreen_ar":""}],"caption_ar":"","hashtags":[""],"keywords_ar":[""],"cover_text_ar":"","music_note":"","best_time":""}`;
+ $('#go').disabled=true;
+ try{
+  if(!idea||$('#tr').checked){
+   $('#st').textContent='جارٍ البحث عن الفيديوهات الرائجة…';
+   const q=`Use Google Search to find the short videos (TikTok, YouTube Shorts, Instagram Reels) and topics that are going viral RIGHT NOW (date: ${new Date().toISOString().slice(0,10)}). Region: ${$('#reg').value}. Niche: ${$('#niche').value}.${idea?' Related to this user idea: '+idea+'.':''}\nList 5 current trends: for each give the video/topic, its format, and why it spreads (hook, emotion, structure). Then propose ONE original idea (not a copy) that borrows the winning pattern of the best trend, suitable for an 8-second-clip AI video of 60+ seconds. Answer in Arabic, concise, plain text. End with a line starting with 'الفكرة:' containing the idea in one sentence.`;
+   try{const w=await gem(q,true);brief=w.t;src=w.src}catch(e){$('#st').textContent='تعذّر البحث في الترند، سيُكمَل دونه'}
+   if(!idea){const m=brief.match(/الفكرة[:：]\s*(.+)/);idea=m?m[1].trim():'an original viral idea for the niche'}
+  }
+  D=await js(mk());D.brief=brief;D.src=src;D.style=$('#sty').value;PREV=null;save();
+  render();tab('t2');$('#st').textContent='';
+ }catch(e){$('#st').textContent='خطأ: '+e.message}
+ $('#go').disabled=false;
+};
+
+function hl(text){
+ const names=[...D.characters.map(x=>[x.en,'c']),...D.characters.map(x=>[x.ar,'c']),...D.places.map(x=>[x.en,'p']),...D.places.map(x=>[x.ar,'p'])].filter(x=>x[0]);
+ const map={};names.forEach(([k,c])=>map[k.toLowerCase()]=c);
+ const keys=Object.keys(map).sort((a,b)=>b.length-a.length);
+ let h=esc(text);if(!keys.length)return h;
+ return h.replace(new RegExp(keys.map(wb).join('|'),'gi'),m=>`<span class="${map[m.toLowerCase()]||'c'}">${m}</span>`);
+}
+function full(s){
+ const t=s.prompt_en.toLowerCase();
+ const cs=D.characters.filter(c=>has(s.prompt_en,c.en)),ps=D.places.filter(c=>has(s.prompt_en,c.en));
+ return s.prompt_en+'\n\n'+(cs.length?'Characters: '+cs.map(c=>c.en+' — '+c.look).join('; ')+'.\n':'')+(ps.length?'Setting: '+ps.map(c=>c.en+' — '+c.look).join('; ')+'.\n':'')+'Vertical 9:16, cinematic, no text overlays, no watermark.';
+}
+const cp=t=>navigator.clipboard.writeText(t).catch(()=>{});
+const sty=()=>D.style||'cinematic photorealistic';
+const cpr=c=>c.ref_prompt_en||`Character reference sheet of ${c.en}: ${c.look}. Full-body, neutral standing pose, front view with side and back views, plain light grey studio background, even soft lighting, consistent proportions and outfit, ${sty()} style, original design, no text, no watermark, vertical 9:16.`;
+const ppr=c=>c.ref_prompt_en||`Wide establishing shot of ${c.en}: ${c.look}. No people in frame, clear depth and composition, natural lighting, ${sty()} style, original design, no text, no watermark, vertical 9:16.`;
+const refs=()=>'### برومبتات الشخصيات\n'+D.characters.map(c=>`[${c.en} — ${c.ar}]\n${cpr(c)}`).join('\n\n')+'\n\n### برومبتات الأماكن\n'+D.places.map(c=>`[${c.en} — ${c.ar}]\n${ppr(c)}`).join('\n\n');
+function render(){
+ const tm=i=>`${i*8}–${i*8+8} ث`;
+ const chk=['المدة أكثر من 60 ثانية (شرط برنامج مكافآت المبدعين)','محتوى أصلي: قصة وصور وسيناريو من إنتاجك، بلا مقاطع منقولة','جودة 1080p عمودي 9:16 بلا علامات مائية من تطبيقات أخرى','فعّل وسم «محتوى مُنشأ بالذكاء الاصطناعي» عند الرفع','لا موسيقى أو أصوات محمية بحقوق النشر','أول 3 ثوانٍ فيها خطّاف واضح، والنهاية سؤال يستفز التعليق','العنوان المكتوب والوصف بنفس لغة الجمهور مع 3–5 وسوم','نوّع الأسلوب والقصص بين الفيديوهات وأضف بصمتك (تعليق صوتك، تعديل النص): المحتوى الآلي المتشابه قد يُخفَّض أو يُستبعد من الربح','تحقق من شروط البرنامج الحالية في تيك توك: المتابعون، المشاهدات، العمر، والبلد المدعوم'];
+ $('#t2').innerHTML=`
+ <div class="box"><h2 style="margin-top:0">${esc(D.title)}</h2><div>الفكرة: ${esc(D.idea_ar)}</div><div>الخطّاف: ${esc(D.hook)}</div>${(D.hooks||[]).length?`<div class="lg">بدائل: ${D.hooks.map(h=>esc(h.text)+' ('+esc(h.score)+'/10)').join(' · ')}</div>`:''}
+ <div style="margin-top:8px">${D.characters.map(c=>`<span class="tag c" title="${esc(c.look)}">${esc(c.ar)} · ${esc(c.en)}</span>`).join('')}${D.places.map(c=>`<span class="tag p" title="${esc(c.look)}">${esc(c.ar)} · ${esc(c.en)}</span>`).join('')}</div>
+ <div class="lg" style="margin-top:6px"><span class="c">الشخصيات</span> <span class="p">الأماكن</span> — الصق المشاهد بالترتيب في Flow، ولكل مشهد زر ينسخ البرومبت مع أوصاف الشخصيات لثبات الشكل.</div></div>
+ <div class="box"><h2 style="margin-top:0">برومبتات الشخصيات والأماكن</h2><div class="lg">ولّد صورة مرجعية لكل شخصية ومكان بهذه البرومبتات، ثم أضفها كمكوّنات (Ingredients) في Flow قبل لصق المشاهد لضمان ثبات الشكل.</div>
+  ${D.characters.map((c,i)=>`<div class="sc" style="margin-top:10px"><h3><span class="tag c">${esc(c.ar)} · ${esc(c.en)}</span></h3><div class="pr">${esc(cpr(c))}</div><div class="acts"><button class="g" data-r="c" data-i="${i}">نسخ البرومبت</button></div></div>`).join('')}
+  ${D.places.map((c,i)=>`<div class="sc" style="margin-top:10px"><h3><span class="tag p">${esc(c.ar)} · ${esc(c.en)}</span></h3><div class="pr">${esc(ppr(c))}</div><div class="acts"><button class="g" data-r="p" data-i="${i}">نسخ البرومبت</button></div></div>`).join('')}
+  <div class="acts"><button class="g" id="cpr">نسخ كل برومبتات الشخصيات والأماكن</button></div></div>
+ ${D.scenes.map((s,i)=>`<div class="box sc"><h3>مشهد ${i+1}<span class="lg">${tm(i)}</span></h3>
+  <div class="pr">${hl(s.prompt_en)}</div>
+  <div class="nar">🎙 ${hl(s.narration_ar)}</div><div class="os">نص على الشاشة: ${esc(s.onscreen_ar)}</div>
+  <div class="acts"><button class="g" data-i="${i}" data-k="p">نسخ البرومبت الكامل</button><button class="g" data-i="${i}" data-k="n">نسخ السرد</button><button class="g" data-i="${i}" data-k="r">إعادة توليد</button><button class="g" data-i="${i}" data-k="e">تعديل</button></div></div>`).join('')}
+ <div class="box"><h2 style="margin-top:0">حزمة النشر</h2>
+  <label>الوصف</label><div>${esc(D.caption_ar)}</div>
+  <label>الوسوم</label><div dir="ltr" style="text-align:right">${D.hashtags.map(h=>esc(h.startsWith('#')?h:'#'+h)).join(' ')}</div>
+  <label>كلمات البحث</label><div>${D.keywords_ar.map(esc).join('، ')}</div>
+  <label>نص الغلاف</label><div>${esc(D.cover_text_ar)}</div>
+  <label>الموسيقى</label><div>${esc(D.music_note)}</div>
+  <label>أفضل وقت للنشر</label><div>${esc(D.best_time)}</div>
+  <div class="acts"><button class="g" id="cpk">نسخ حزمة النشر</button><button class="g" id="cpa">نسخ كل شيء</button><button class="g" id="dlt">تنزيل .txt</button><button class="g" id="nxt">الحلقة التالية</button></div></div>
+ ${D.brief?`<div class="box"><h2 style="margin-top:0">بحث الترند</h2><div class="pr" style="direction:rtl;text-align:right;font-family:inherit">${esc(D.brief)}</div>${D.src.length?`<div class="lg" style="margin-top:6px">المصادر: ${D.src.slice(0,8).map(x=>`<a style="color:var(--pl)" target="_blank" rel="noopener" href="${esc(x.uri)}">${esc(x.title||x.uri)}</a>`).join(" · ")}</div>`:""}</div>`:""}
+ <div class="box ok"><h2 style="margin-top:0">قائمة شروط الانتشار والربح</h2>${chk.map(c=>`<label><input type="checkbox">${c}</label>`).join('')}</div>`;
+ $('#t2').querySelectorAll('[data-r]').forEach(b=>b.onclick=()=>{const i=+b.dataset.i,c=b.dataset.r=='c'?D.characters[i]:D.places[i];cp(b.dataset.r=='c'?cpr(c):ppr(c));b.textContent='تم النسخ ✓'});
+ $('#cpr').onclick=e=>{cp(refs());e.target.textContent='تم النسخ ✓'};
+ $('#t2').querySelectorAll('[data-k]').forEach(b=>b.onclick=async()=>{const i=+b.dataset.i,k=b.dataset.k,s=D.scenes[i];
+ if(k=='p'||k=='n'){cp(k=='p'?full(s):s.narration_ar);b.textContent='تم النسخ ✓';return}
+ if(k=='e'){const v=prompt('عدّل البرومبت (English):',s.prompt_en);if(v){s.prompt_en=v;save();render()}return}
+ const ins=prompt('ما الذي تريد تغييره في هذا المشهد؟ (اتركه فارغاً لنسخة جديدة)','');if(ins===null)return;
+ b.textContent='…';
+ try{D.scenes[i]=await js(`Rewrite scene ${i+1} of this reel keeping story continuity. Use exact en names. Characters: ${JSON.stringify(D.characters.map(c=>c.en))}. Places: ${JSON.stringify(D.places.map(c=>c.en))}. Previous scene: ${D.scenes[i-1]?.prompt_en||'none'}. Next scene: ${D.scenes[i+1]?.prompt_en||'none'}. Current: ${JSON.stringify(s)}. Change: ${ins||'a fresh variation'}. Return ONLY JSON {"prompt_en":"","narration_ar":"","onscreen_ar":""} (self-contained 8s Veo prompt, no on-screen text).`);save();render()}catch(e){alert(e.message);b.textContent='إعادة توليد'}});
+ const pub=()=>`${D.title}\n\n${D.caption_ar}\n${D.hashtags.map(h=>h.startsWith('#')?h:'#'+h).join(' ')}\n\nكلمات البحث: ${D.keywords_ar.join('، ')}\nنص الغلاف: ${D.cover_text_ar}`;
+ const all=()=>refs()+'\n\n'+D.scenes.map((s,i)=>`### مشهد ${i+1} (${tm(i)})\n${full(s)}\nالسرد: ${s.narration_ar}\nعلى الشاشة: ${s.onscreen_ar}`).join('\n\n')+'\n\n### النشر\n'+pub();
+ $('#cpk').onclick=()=>cp(pub());
+ $('#nxt').onclick=()=>{PREV={title:D.title,idea:D.idea_ar,characters:D.characters,places:D.places};$('#idea').value='الحلقة التالية من: '+D.idea_ar;$('#tr').checked=false;tab('t1');$('#st').textContent='اضغط «أنشئ الحزمة» لتوليد الحلقة التالية بنفس الشخصيات'};$('#cpa').onclick=()=>cp(all());
+ $('#dlt').onclick=()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([all()],{type:'text/plain'}));a.download='reels-package.txt';a.click()};
+}
+
+$('#files').onchange=e=>{files=files.concat([...e.target.files]);e.target.value='';list()};
+function list(){
+ $('#ms').textContent=D&&files.length&&files.length!=D.scenes.length?'تنبيه: عدد المقاطع '+files.length+' ومشاهد الحزمة '+D.scenes.length:'';
+ $('#fl').innerHTML=files.map((f,i)=>`<div class="fl"><b>${i+1}</b><span>${esc(f.name)}</span><button class="g" data-a="u" data-i="${i}">▲</button><button class="g" data-a="d" data-i="${i}">▼</button><button class="g" data-a="x" data-i="${i}">✕</button></div>`).join('');
+ $('#fl').querySelectorAll('button').forEach(b=>b.onclick=()=>{const i=+b.dataset.i,a=b.dataset.a;
+  if(a=='x')files.splice(i,1);else{const j=a=='u'?i-1:i+1;if(j>=0&&j<files.length)[files[i],files[j]]=[files[j],files[i]]}list()});
+}
+$('#mg').onclick=async()=>{
+ if(!files.length){$('#ms').textContent='أضف مقاطع أولاً';return}
+ if(!window.MediaRecorder){$('#ms').textContent='المتصفح لا يدعم الدمج. استعمل Chrome.';return}
+ $('#mg').disabled=true;
+ const cv=document.createElement('canvas');cv.width=1080;cv.height=1920;const cx=cv.getContext('2d'),SUB=$('#sub').checked;let tot=0;
+ const sub=t=>{if(!t)return;cx.font='bold 70px Tahoma,sans-serif';cx.textAlign='center';cx.lineJoin='round';cx.lineWidth=12;cx.strokeStyle='#000';cx.fillStyle='#fff';const L=[];let l='';t.split(' ').forEach(w=>{if((l+' '+w).length>16&&l){L.push(l);l=w}else l=l?l+' '+w:w});L.push(l);L.forEach((x,k)=>{cx.strokeText(x,540,1480+k*90);cx.fillText(x,540,1480+k*90)})};
+ const ac=new AudioContext(),dst=ac.createMediaStreamDestination();
+ const st=new MediaStream([...cv.captureStream(30).getVideoTracks(),...dst.stream.getAudioTracks()]);
+ const mt=['video/mp4','video/webm;codecs=vp9,opus','video/webm'].find(t=>MediaRecorder.isTypeSupported(t));
+ const rec=new MediaRecorder(st,{mimeType:mt,videoBitsPerSecond:12e6}),ch=[];
+ rec.ondataavailable=e=>e.data.size&&ch.push(e.data);
+ const done=new Promise(r=>rec.onstop=r);rec.start(500);
+ for(let i=0;i<files.length;i++){
+  $('#ms').textContent=`جارٍ دمج المقطع ${i+1} من ${files.length}…`;
+  const v=document.createElement('video');v.src=URL.createObjectURL(files[i]);v.playsInline=true;
+  await new Promise(r=>v.onloadedmetadata=r);tot+=v.duration;
+  ac.createMediaElementSource(v).connect(dst);
+  const draw=()=>{const s=Math.max(1080/v.videoWidth,1920/v.videoHeight),w=v.videoWidth*s,h=v.videoHeight*s;cx.drawImage(v,(1080-w)/2,(1920-h)/2,w,h);if(SUB&&D)sub(D.scenes[i]?.onscreen_ar);if(!v.ended)requestAnimationFrame(draw)};
+  await ac.resume();await v.play();draw();
+  await new Promise(r=>v.onended=r);
+ }
+ rec.stop();await done;
+ const ext=mt.includes('mp4')?'mp4':'webm',url=URL.createObjectURL(new Blob(ch,{type:mt}));
+ $('#pv').src=url;$('#pv').classList.remove('hid');$('#dl').href=url;$('#dl').download='reels-final.'+ext;$('#dl').classList.remove('hid');
+ $('#ms').textContent='تم الدمج ('+ext+') — المدة '+Math.round(tot)+' ث'+(tot<60?' ⚠ أقل من 60 ثانية: لن يؤهَّل لبرنامج المكافآت':' ✓')+'. إن رفض تيك توك الصيغة فحوّلها إلى mp4 عبر CapCut.';
+ $('#mg').disabled=false;
+};
+if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+</script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+# استوديو ريلز Flow (PWA)
+
+تطبيق ويب تقدّمي لتوليد مشاهد Google Flow وبرومبتات الشخصيات والأماكن وحزمة النشر لتيك توك.
+
+## الرفع إلى GitHub Pages
+
+1. أنشئ مستودعاً جديداً على GitHub (مثلاً `flow-reels-studio`).
+2. فك ضغط هذا الملف، ثم ارفع **محتوياته** (وليس المجلد نفسه) إلى جذر المستودع: `index.html` و`sw.js` و`manifest.webmanifest` و`.nojekyll` ومجلد `icons`.
+3. من **Settings ← Pages**: اختر Source: **Deploy from a branch**، والفرع `main`، والمجلد `/ (root)`، ثم Save.
+4. بعد دقيقة يظهر الرابط: `https://USERNAME.github.io/flow-reels-studio/`
+
+## التثبيت كتطبيق
+
+- **أندرويد (Chrome):** القائمة ⋮ ← «تثبيت التطبيق».
+- **آيفون (Safari):** مشاركة ← «إضافة إلى الشاشة الرئيسية».
+- **الحاسوب (Chrome/Edge):** أيقونة التثبيت في شريط العنوان.
+
+## ملاحظات
+
+- مفاتيح Gemini تُحفظ في متصفحك فقط (localStorage) ولا تُرفع إلى GitHub.
+- عند تعديل `index.html` لاحقاً غيّر رقم `CACHE` في `sw.js` (مثلاً `flow-reels-v2`) ليصل التحديث للمستخدمين.
+- يجب أن يكون الرابط HTTPS (GitHub Pages يوفّره) كي يعمل الـ Service Worker.
