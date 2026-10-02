@@ -40,24 +40,37 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 .ok label{display:flex;gap:8px;align-items:flex-start;color:var(--tx);font-size:14px;margin:4px 0}
 .ok input{width:auto;margin-top:6px}
 .hid{display:none}#st{color:var(--ch);min-height:24px;font-size:14px}
-.fl{display:flex;gap:6px;align-items:center;padding:6px 0;border-bottom:1px solid var(--ln);font-size:14px}
-.fl span{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;direction:ltr;text-align:right}
-video{width:100%;max-height:420px;border-radius:8px;background:#000}
 </style>
 </head>
 <body>
-<h1>استوديو ريلز Flow</h1>
-<p class="s">فكرة واحدة ← حزمة كاملة: مشاهد جاهزة للصق في Flow، أسماء الشخصيات والأماكن ملوّنة، حزمة نشر لتيك توك، ثم تجميع المقاطع.</p>
-<nav><button class="on" data-t="t1">1 الإعداد</button><button data-t="t2">2 الحزمة</button><button data-t="t3">3 التجميع</button></nav>
+<h1>استوديو ريلز Flow <span id="ver" class="lg" dir="ltr"></span></h1>
+<p class="s">فكرة واحدة ← حزمة كاملة: مشاهد جاهزة للصق في Flow، أسماء الشخصيات والأماكن ملوّنة، وحزمة نشر لتيك توك.</p>
+<nav><button class="on" data-t="t1">1 الإعداد</button><button data-t="t2">2 الحزمة</button></nav>
 
 <section id="t1">
  <div class="box">
-  <label>مفاتيح Gemini (مفتاح في كل سطر — يُدوَّر تلقائياً عند نفاد الحصة)</label>
-  <textarea id="keys" placeholder="AIza..." dir="ltr"></textarea>
+  <label>مزوّد الذكاء الاصطناعي</label>
+  <select id="prov"><option value="gemini">Gemini (Google)</option><option value="openai">OpenAI</option></select>
+  <div class="lg" id="kn" style="margin-top:4px"></div>
+  <label id="kl"></label>
+  <textarea id="keys" dir="ltr"></textarea>
   <label>النموذج</label>
-  <input id="model" list="ml" value="gemini-2.5-flash" dir="ltr"><datalist id="ml"><option>gemini-2.5-flash</option><option>gemini-2.5-pro</option><option>gemini-2.0-flash</option></datalist>
+  <input id="model" list="ml" dir="ltr"><datalist id="ml"></datalist>
+  <label>نموذج الصور (للشخصيات والأماكن — قد يكون مدفوعاً)</label>
+  <input id="imodel" list="iml" dir="ltr"><datalist id="iml"></datalist>
   <label style="display:flex;gap:8px;align-items:center;color:var(--tx)"><input type="checkbox" id="sk" checked style="width:auto">احفظ المفاتيح على هذا الجهاز</label>
   <label>مشاريع محفوظة</label><select id="pj"></select>
+  <div class="row" style="margin-top:10px"><button class="g" id="tst" type="button">اختبار الاتصال</button><button class="g" id="upd" type="button">تحديث التطبيق</button></div>
+  <div class="lg" style="margin-top:8px">الإصدار <b id="ver2" dir="ltr"></b></div>
+  <details class="lg"><summary>ما الجديد</summary><div>1.2.0: تصدير/استيراد المشاريع، توليد صور مرجعية للشخصيات والأماكن، إزالة تبويب التجميع والمزوّد المجاني.<br>1.1.0: اختيار المزوّد (Gemini / OpenAI / مجاني)، رقم الإصدار، زر التحديث، اختبار الاتصال.<br>1.0.0: برومبتات الشخصيات والأماكن، دعم PWA.</div></details>
+ </div>
+ <div class="box">
+  <h2 style="margin-top:0">النسخ الاحتياطي</h2>
+  <p class="s">المشاريع تُحفظ داخل المتصفح فقط وقد تضيع عند مسح بياناته. صدّرها كملف JSON (بدون مفاتيح API) واستوردها متى شئت.</p>
+  <label style="display:flex;gap:8px;align-items:center;color:var(--tx)"><input type="checkbox" id="expimg" checked style="width:auto">تضمين الصور المولَّدة في التصدير (يكبّر الملف)</label>
+  <div class="row" style="margin-top:8px"><button class="g" id="exa" type="button">تصدير كل المشاريع</button><button class="g" id="impb" type="button">استيراد مشاريع</button></div>
+  <input type="file" id="imp" accept=".json,application/json" class="hid">
+  <div id="bs" class="s" style="margin-top:6px"></div>
  </div>
  <div class="box">
   <label>فكرتك (اختيارية — اتركها فارغة ليبحث التطبيق في الترند ويولّد الفكرة)</label>
@@ -78,54 +91,143 @@ video{width:100%;max-height:420px;border-radius:8px;background:#000}
 
 <section id="t2" class="hid"><p class="s">لم تُنشأ حزمة بعد. ابدأ من تبويب الإعداد.</p></section>
 
-<section id="t3" class="hid">
- <div class="box">
-  <p class="s">اختر مقاطع Flow التي نزّلتها، رتّبها، ثم ادمجها في ملف عمودي 1080×1920 مع الصوت. يتم الدمج بزمن التشغيل الفعلي، فأبقِ هذا التبويب مفتوحاً.</p>
-  <input type="file" id="files" accept="video/*" multiple>
-  <label style="display:flex;gap:8px;align-items:center;color:var(--tx)"><input type="checkbox" id="sub" checked style="width:auto">اطبع «النص على الشاشة» لكل مشهد على الفيديو</label>
-  <div id="fl"></div>
-  <div class="acts"><button class="b" id="mg">ادمج المقاطع</button></div>
-  <div id="ms" class="s"></div>
-  <video id="pv" controls class="hid"></video>
-  <a id="dl" class="hid"><button class="g" style="margin-top:8px">تنزيل الفيديو</button></a>
- </div>
-</section>
-
 <script>
-const $=s=>document.querySelector(s);let D=null,PREV=null,files=[],rot=0;
-try{$('#keys').value=localStorage.gk||'';$('#model').value=localStorage.gm||'gemini-2.5-flash'}catch(e){}
+const $=s=>document.querySelector(s);let D=null,PREV=null,rot=0;
+const VER='1.2.0';$('#ver').textContent='v'+VER;$('#ver2').textContent=VER;
+const PV={
+ gemini:{n:'Gemini',k:'gk',m:'gm',im:'gemini-2.5-flash-image',iml:['gemini-2.5-flash-image','imagen-4.0-generate-001'],ik:'gi',dm:'gemini-2.5-flash',ml:['gemini-2.5-flash','gemini-2.5-pro','gemini-2.0-flash'],ph:'AIza...',lbl:'مفاتيح Gemini (مفتاح في كل سطر — يُدوَّر تلقائياً عند نفاد الحصة)',note:'يدعم البحث في الترند عبر Google Search.'},
+ openai:{n:'OpenAI',k:'ok',m:'om',im:'gpt-image-1',iml:['gpt-image-1','gpt-image-1-mini'],ik:'oi',dm:'gpt-4.1-mini',ml:['gpt-4.1-mini','gpt-4.1','gpt-4o-mini','gpt-5-mini'],ph:'sk-...',lbl:'مفاتيح OpenAI (مفتاح في كل سطر — يُدوَّر تلقائياً عند الخطأ)',note:'المفتاح يُحفظ في متصفحك فقط. البحث في الترند يعمل إن كان النموذج يدعم أداة البحث. يمكنك كتابة أي اسم نموذج.'}
+};
+let cur=(()=>{try{return PV[localStorage.pv]?localStorage.pv:'gemini'}catch(e){return'gemini'}})();
+function persist(){try{const p=PV[cur];if($('#sk').checked)localStorage[p.k]=$('#keys').value;else delete localStorage[p.k];localStorage[p.m]=$('#model').value;localStorage[p.ik]=$('#imodel').value}catch(e){}}
+function loadPv(){const p=PV[cur];let k='',m='',im='';try{k=localStorage[p.k]||'';m=localStorage[p.m]||'';im=localStorage[p.ik]||''}catch(e){}
+ $('#imodel').value=im||p.im;$('#iml').innerHTML=p.iml.map(x=>`<option>${x}</option>`).join('');
+ $('#prov').value=cur;$('#kl').textContent=p.lbl;$('#kn').textContent=p.note;$('#keys').placeholder=p.ph;$('#keys').value=k;$('#model').value=m||p.dm;
+ $('#ml').innerHTML=p.ml.map(x=>`<option>${x}</option>`).join('')}
+$('#prov').onchange=()=>{persist();cur=$('#prov').value;try{localStorage.pv=cur}catch(e){}loadPv()};
+['keys','model','imodel'].forEach(i=>$('#'+i).addEventListener('input',persist));$('#sk').addEventListener('change',persist);
+loadPv();
+$('#upd').onclick=async()=>{$('#st').textContent='جارٍ التحديث…';try{const rs=await navigator.serviceWorker.getRegistrations();await Promise.all(rs.map(r=>r.unregister()));const ks=await caches.keys();await Promise.all(ks.map(k=>caches.delete(k)))}catch(e){}location.reload()};
+$('#tst').onclick=async()=>{$('#st').textContent='جارٍ اختبار الاتصال…';try{const r=await gem('Return ONLY this JSON: {"ok":true}');JSON.parse(r.t.slice(r.t.indexOf('{'),r.t.lastIndexOf('}')+1));$('#st').textContent='✓ الاتصال يعمل ('+PV[cur].n+' · '+$('#model').value+')'}catch(e){$('#st').textContent='خطأ: '+e.message}};
 document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>tab(b.dataset.t));
-function tab(t){document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.t==t));['t1','t2','t3'].forEach(i=>$('#'+i).classList.toggle('hid',i!=t))}
+function tab(t){document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.t==t));['t1','t2'].forEach(i=>$('#'+i).classList.toggle('hid',i!=t))}
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const rx=s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
 const wb=k=>{const e=rx(esc(k));return /^[\x00-\x7f]+$/.test(k)?'(?<![A-Za-z0-9])'+e+'(?![A-Za-z0-9])':e};
 const has=(t,k)=>new RegExp(wb(k),'i').test(esc(t));
-async function js(p){for(let i=0;i<2;i++){const r=await gem(p);try{const t=r.t;return JSON.parse(t.slice(t.indexOf('{'),t.lastIndexOf('}')+1))}catch(e){}}throw Error('استجابة غير صالحة من Gemini، أعد المحاولة')}
+async function js(p){for(let i=0;i<2;i++){const r=await gem(p);try{const t=r.t;return JSON.parse(t.slice(t.indexOf('{'),t.lastIndexOf('}')+1))}catch(e){}}throw Error('استجابة غير صالحة من النموذج، أعد المحاولة')}
 const store=()=>{try{return JSON.parse(localStorage.rp||'[]')}catch(e){return[]}};
-function save(){if(!D)return;try{D.id=D.id||Date.now();localStorage.rp=JSON.stringify([D,...store().filter(x=>x.id!=D.id)].slice(0,20))}catch(e){}pl()}
+function save(){if(!D)return;try{D.id=D.id||Date.now();localStorage.rp=JSON.stringify([D,...store().filter(x=>x.id!=D.id)].slice(0,50))}catch(e){}pl()}
 function pl(){$('#pj').innerHTML='<option value="">— مشاريع محفوظة —</option>'+store().map(x=>`<option value="${x.id}">${esc(x.title)}</option>`).join('')}
 $('#pj').onchange=()=>{const x=store().find(y=>y.id==$('#pj').value);if(x){D=x;render();tab('t2')}};
 pl();
 
-async function gem(prompt,web){
- const ks=$('#keys').value.split('\n').map(k=>k.trim()).filter(Boolean),m=$('#model').value;
- if(!ks.length)throw Error('أضف مفتاح Gemini واحداً على الأقل');
- try{if($('#sk').checked)localStorage.gk=$('#keys').value;else delete localStorage.gk;localStorage.gm=m}catch(e){}
- let err='';
- for(let round=0;round<2;round++){ if(round){$('#st').textContent='انتظار قبل المحاولة الأخيرة…';await new Promise(r=>setTimeout(r,6000))}
+const badErr=(pv,r,d)=>{const e=Error((d.error&&d.error.message)||(typeof d.error=='string'?d.error:'')||r.status);e.fatal=pv!='gemini'&&(r.status==400||r.status==404);return e};
+async function call(pv,k,m,prompt,web){
+ const H={'Content-Type':'application/json'};
+ if(pv=='gemini'){
+  const r=await fetch('https://generativelanguage.googleapis.com/v1beta/models/'+m+':generateContent',{method:'POST',headers:{...H,'x-goog-api-key':k},body:JSON.stringify(web?{contents:[{parts:[{text:prompt}]}],tools:[{google_search:{}}]}:{contents:[{parts:[{text:prompt}]}],generationConfig:{responseMimeType:'application/json',temperature:.9}})});
+  const d=await r.json();if(!r.ok)throw badErr(pv,r,d);
+  const c=d.candidates[0];return{t:c.content.parts.map(p=>p.text||'').join(''),src:(c.groundingMetadata?.groundingChunks||[]).map(x=>x.web).filter(Boolean)};
+ }
+ if(web){
+  const r=await fetch('https://api.openai.com/v1/responses',{method:'POST',headers:{...H,Authorization:'Bearer '+k},body:JSON.stringify({model:m,input:prompt,tools:[{type:'web_search'}]})});
+  const d=await r.json();if(!r.ok)throw badErr(pv,r,d);
+  const parts=(d.output||[]).filter(o=>o.type=='message').flatMap(o=>o.content||[]).filter(c=>c.type=='output_text');
+  const src=parts.flatMap(c=>c.annotations||[]).filter(a=>a.type=='url_citation').map(a=>({uri:a.url,title:a.title}));
+  return{t:parts.map(c=>c.text).join(''),src:src.filter((x,i,A)=>A.findIndex(y=>y.uri==x.uri)==i)};
+ }
+ const r=await fetch('https://api.openai.com/v1/chat/completions',{method:'POST',headers:{...H,Authorization:'Bearer '+k},body:JSON.stringify({model:m,messages:[{role:'user',content:prompt}],response_format:{type:'json_object'}})});
+ let d;try{d=await r.json()}catch(e){d={}}
+ if(!r.ok)throw badErr(pv,r,d);
+ return{t:(d.choices&&d.choices[0]&&d.choices[0].message.content)||'',src:[]};
+}
+async function callImg(pv,k,m,prompt){
+ const H={'Content-Type':'application/json'};
+ const noImg=()=>Error('لم يرجع النموذج صورة (ربما حُجبت لأسباب السلامة). عدّل البرومبت وأعد المحاولة');
+ if(pv=='gemini'){
+  const hd={...H,'x-goog-api-key':k},base='https://generativelanguage.googleapis.com/v1beta/models/'+m;
+  if(/^imagen/i.test(m)){
+   const r=await fetch(base+':predict',{method:'POST',headers:hd,body:JSON.stringify({instances:[{prompt}],parameters:{sampleCount:1,aspectRatio:'9:16'}})});
+   const d=await r.json();if(!r.ok)throw badErr(pv,r,d);
+   const x=d.predictions&&d.predictions[0];if(!x||!x.bytesBase64Encoded)throw noImg();
+   return 'data:'+(x.mimeType||'image/png')+';base64,'+x.bytesBase64Encoded;
+  }
+  const r=await fetch(base+':generateContent',{method:'POST',headers:hd,body:JSON.stringify({contents:[{parts:[{text:prompt}]}],generationConfig:{responseModalities:['TEXT','IMAGE']}})});
+  const d=await r.json();if(!r.ok)throw badErr(pv,r,d);
+  const ps=(d.candidates&&d.candidates[0]&&d.candidates[0].content&&d.candidates[0].content.parts)||[];
+  const x=ps.map(p=>p.inlineData||p.inline_data).find(Boolean);if(!x||!x.data)throw noImg();
+  return 'data:'+(x.mimeType||x.mime_type||'image/png')+';base64,'+x.data;
+ }
+ const dl=/^dall-e/i.test(m),body={model:m,prompt,n:1,size:dl?'1024x1792':'1024x1536'};
+ if(dl)body.response_format='b64_json';else body.quality='medium';
+ const r=await fetch('https://api.openai.com/v1/images/generations',{method:'POST',headers:{...H,Authorization:'Bearer '+k},body:JSON.stringify(body)});
+ const d=await r.json();if(!r.ok)throw badErr(pv,r,d);
+ const x=d.data&&d.data[0];if(!x||!x.b64_json)throw noImg();
+ return 'data:image/png;base64,'+x.b64_json;
+}
+async function withKeys(fn){
+ const p=PV[cur],ks=$('#keys').value.split('\n').map(k=>k.trim()).filter(Boolean);
+ if(!ks.length)throw Error('أضف مفتاح '+p.n+' واحداً على الأقل');
+ persist();let err='';
+ outer:for(let round=0;round<2;round++){ if(round){$('#st').textContent='انتظار قبل المحاولة الأخيرة…';await new Promise(r=>setTimeout(r,6000))}
  for(let i=0;i<ks.length;i++){
   const j=(rot+i)%ks.length;
-  $('#st').textContent='جارٍ التوليد بالمفتاح '+(j+1)+' من '+ks.length+'…';
-  try{
-   const r=await fetch('https://generativelanguage.googleapis.com/v1beta/models/'+m+':generateContent',{method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':ks[j]},body:JSON.stringify(web?{contents:[{parts:[{text:prompt}]}],tools:[{google_search:{}}]}:{contents:[{parts:[{text:prompt}]}],generationConfig:{responseMimeType:'application/json',temperature:.9}})});
-   const d=await r.json();
-   if(r.ok){rot=j;const c=d.candidates[0];return{t:c.content.parts.map(p=>p.text||'').join(''),src:(c.groundingMetadata?.groundingChunks||[]).map(x=>x.web).filter(Boolean)}}
-   err='مفتاح '+(j+1)+': '+(d.error?.message||r.status);
-  }catch(e){err='مفتاح '+(j+1)+': '+e.message}
+  $('#st').textContent='جارٍ التوليد ('+p.n+') بالمفتاح '+(j+1)+' من '+ks.length+'…';
+  try{const o=await fn(ks[j]);rot=j;return o}
+  catch(e){err='مفتاح '+(j+1)+': '+e.message;if(e.fatal)break outer}
  }
  }
  throw Error('فشلت كل المفاتيح. '+err);
 }
+const gem=(prompt,web)=>withKeys(k=>call(cur,k,$('#model').value.trim()||PV[cur].dm,prompt,web));
+const gimg=prompt=>withKeys(k=>callImg(cur,k,$('#imodel').value.trim()||PV[cur].im,prompt));
+
+/* ---- IndexedDB: generated images (key: projectId|c-or-p|index) ---- */
+const idb=()=>new Promise((res,rej)=>{try{const r=indexedDB.open('flowreels',1);r.onupgradeneeded=()=>r.result.createObjectStore('img');r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)}catch(e){rej(e)}});
+const itx=async(mode,f)=>{const d=await idb();return new Promise((res,rej)=>{const t=d.transaction('img',mode),o=f(t.objectStore('img'));t.oncomplete=()=>res(o&&o.result);t.onerror=()=>rej(t.error);t.onabort=()=>rej(t.error)})};
+const ig=k=>itx('readonly',o=>o.get(k)).then(v=>v||null,()=>null);
+const is=(k,v)=>itx('readwrite',o=>o.put(v,k)).then(()=>{},()=>{throw Error('تعذّر حفظ الصورة في المتصفح')});
+const idel=k=>itx('readwrite',o=>o.delete(k)).catch(()=>{});
+const iall=p=>idb().then(d=>new Promise(res=>{const out={},q=d.transaction('img').objectStore('img').openCursor(IDBKeyRange.bound(p,p+'\uffff'));q.onsuccess=()=>{const c=q.result;if(c){out[c.key]=c.value;c.continue()}else res(out)};q.onerror=()=>res(out)})).catch(()=>({}));
+const ikey=(r,i)=>D.id+'|'+r+'|'+i;
+const dlf=(u,n)=>{const a=document.createElement('a');a.href=u;a.download=n;a.click()};
+const isImg=v=>typeof v=='string'&&/^data:image\/(png|jpe?g|webp);base64,[A-Za-z0-9+\/=]+$/.test(v);
+
+/* ---- export / import ---- */
+async function exportData(projs,withImg,name){
+ const out={app:'flow-reels-studio',ver:VER,exported:new Date().toISOString(),projects:projs,images:{}};
+ if(withImg)for(const p of projs)Object.assign(out.images,await iall(p.id+'|'));
+ const u=URL.createObjectURL(new Blob([JSON.stringify(out)],{type:'application/json'}));
+ dlf(u,name+'-'+new Date().toISOString().slice(0,10)+'.json');setTimeout(()=>URL.revokeObjectURL(u),8000);
+ return Object.keys(out.images).length;
+}
+const S=v=>typeof v=='string'?v:'',A=v=>Array.isArray(v)?v:[];
+function norm(p,i){
+ const ent=x=>({ar:S(x&&x.ar),en:S(x&&x.en),look:S(x&&x.look),ref_prompt_en:S(x&&x.ref_prompt_en)});
+ return{id:(typeof p.id=='number'||/^\d+$/.test(S(p.id)))?+p.id:Date.now()+i,title:S(p.title),idea_ar:S(p.idea_ar),hook:S(p.hook),
+  hooks:A(p.hooks).map(h=>({text:S(h&&h.text),score:Number(h&&h.score)||0})),
+  characters:A(p.characters).map(ent),places:A(p.places).map(ent),
+  scenes:A(p.scenes).map(x=>({prompt_en:S(x&&x.prompt_en),narration_ar:S(x&&x.narration_ar),onscreen_ar:S(x&&x.onscreen_ar)})),
+  caption_ar:S(p.caption_ar),hashtags:A(p.hashtags).map(String),keywords_ar:A(p.keywords_ar).map(String),cover_text_ar:S(p.cover_text_ar),
+  music_note:S(p.music_note),best_time:S(p.best_time),brief:S(p.brief),style:S(p.style),
+  src:A(p.src).filter(x=>x&&/^https?:\/\//.test(S(x.uri))).map(x=>({uri:x.uri,title:S(x.title)}))};
+}
+$('#exa').onclick=async()=>{const ps=store();if(!ps.length){$('#bs').textContent='لا توجد مشاريع محفوظة للتصدير';return}
+ const n=await exportData(ps,$('#expimg').checked,'flow-reels-projects');$('#bs').textContent='تم تصدير '+ps.length+' مشروع'+(n?' و'+n+' صورة':'')+' ✓'};
+$('#impb').onclick=()=>$('#imp').click();
+$('#imp').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(!f)return;
+ try{
+  const j=JSON.parse(await f.text());
+  if(!j||j.app!='flow-reels-studio'||!Array.isArray(j.projects))throw Error('الملف ليس نسخة احتياطية من هذا التطبيق');
+  const ps=j.projects.filter(p=>p&&typeof p=='object'&&Array.isArray(p.scenes)&&S(p.title)).map(norm);
+  if(!ps.length)throw Error('لا توجد مشاريع صالحة في الملف');
+  const ids=new Set(ps.map(p=>String(p.id)));
+  try{localStorage.rp=JSON.stringify([...ps,...store().filter(x=>!ids.has(String(x.id)))].slice(0,50))}catch(er){throw Error('مساحة التخزين ممتلئة، تعذّر الاستيراد')}
+  let n=0;const im=j.images&&typeof j.images=='object'?j.images:{};
+  for(const k of Object.keys(im)){const m=/^(\d+)\|[cp]\|\d+$/.exec(k);if(m&&ids.has(m[1])&&isImg(im[k])){try{await is(k,im[k]);n++}catch(er){}}}
+  pl();$('#bs').textContent='تم استيراد '+ps.length+' مشروع'+(n?' و'+n+' صورة':'')+' ✓'
+ }catch(er){$('#bs').textContent='خطأ: '+er.message}};
 
 $('#go').onclick=async()=>{
  let idea=$('#idea').value.trim(),brief='',src=[];
@@ -183,9 +285,9 @@ function render(){
  <div style="margin-top:8px">${D.characters.map(c=>`<span class="tag c" title="${esc(c.look)}">${esc(c.ar)} · ${esc(c.en)}</span>`).join('')}${D.places.map(c=>`<span class="tag p" title="${esc(c.look)}">${esc(c.ar)} · ${esc(c.en)}</span>`).join('')}</div>
  <div class="lg" style="margin-top:6px"><span class="c">الشخصيات</span> <span class="p">الأماكن</span> — الصق المشاهد بالترتيب في Flow، ولكل مشهد زر ينسخ البرومبت مع أوصاف الشخصيات لثبات الشكل.</div></div>
  <div class="box"><h2 style="margin-top:0">برومبتات الشخصيات والأماكن</h2><div class="lg">ولّد صورة مرجعية لكل شخصية ومكان بهذه البرومبتات، ثم أضفها كمكوّنات (Ingredients) في Flow قبل لصق المشاهد لضمان ثبات الشكل.</div>
-  ${D.characters.map((c,i)=>`<div class="sc" style="margin-top:10px"><h3><span class="tag c">${esc(c.ar)} · ${esc(c.en)}</span></h3><div class="pr">${esc(cpr(c))}</div><div class="acts"><button class="g" data-r="c" data-i="${i}">نسخ البرومبت</button></div></div>`).join('')}
-  ${D.places.map((c,i)=>`<div class="sc" style="margin-top:10px"><h3><span class="tag p">${esc(c.ar)} · ${esc(c.en)}</span></h3><div class="pr">${esc(ppr(c))}</div><div class="acts"><button class="g" data-r="p" data-i="${i}">نسخ البرومبت</button></div></div>`).join('')}
-  <div class="acts"><button class="g" id="cpr">نسخ كل برومبتات الشخصيات والأماكن</button></div></div>
+  ${D.characters.map((c,i)=>`<div class="sc" style="margin-top:10px"><h3><span class="tag c">${esc(c.ar)} · ${esc(c.en)}</span></h3><div class="pr">${esc(cpr(c))}</div><div class="acts"><button class="g" data-r="c" data-i="${i}">نسخ البرومبت</button><button class="g" data-gi="c${i}">توليد صورة</button></div><div class="im" data-r="c" data-i="${i}"></div></div>`).join('')}
+  ${D.places.map((c,i)=>`<div class="sc" style="margin-top:10px"><h3><span class="tag p">${esc(c.ar)} · ${esc(c.en)}</span></h3><div class="pr">${esc(ppr(c))}</div><div class="acts"><button class="g" data-r="p" data-i="${i}">نسخ البرومبت</button><button class="g" data-gi="p${i}">توليد صورة</button></div><div class="im" data-r="p" data-i="${i}"></div></div>`).join('')}
+  <div class="acts"><button class="g" id="cpr">نسخ كل برومبتات الشخصيات والأماكن</button><button class="g" id="gall">توليد كل الصور الناقصة</button></div></div>
  ${D.scenes.map((s,i)=>`<div class="box sc"><h3>مشهد ${i+1}<span class="lg">${tm(i)}</span></h3>
   <div class="pr">${hl(s.prompt_en)}</div>
   <div class="nar">🎙 ${hl(s.narration_ar)}</div><div class="os">نص على الشاشة: ${esc(s.onscreen_ar)}</div>
@@ -197,11 +299,28 @@ function render(){
   <label>نص الغلاف</label><div>${esc(D.cover_text_ar)}</div>
   <label>الموسيقى</label><div>${esc(D.music_note)}</div>
   <label>أفضل وقت للنشر</label><div>${esc(D.best_time)}</div>
-  <div class="acts"><button class="g" id="cpk">نسخ حزمة النشر</button><button class="g" id="cpa">نسخ كل شيء</button><button class="g" id="dlt">تنزيل .txt</button><button class="g" id="nxt">الحلقة التالية</button></div></div>
+  <div class="acts"><button class="g" id="cpk">نسخ حزمة النشر</button><button class="g" id="cpa">نسخ كل شيء</button><button class="g" id="dlt">تنزيل .txt</button><button class="g" id="expp">تصدير هذا المشروع</button><button class="g" id="nxt">الحلقة التالية</button></div></div>
  ${D.brief?`<div class="box"><h2 style="margin-top:0">بحث الترند</h2><div class="pr" style="direction:rtl;text-align:right;font-family:inherit">${esc(D.brief)}</div>${D.src.length?`<div class="lg" style="margin-top:6px">المصادر: ${D.src.slice(0,8).map(x=>`<a style="color:var(--pl)" target="_blank" rel="noopener" href="${esc(x.uri)}">${esc(x.title||x.uri)}</a>`).join(" · ")}</div>`:""}</div>`:""}
  <div class="box ok"><h2 style="margin-top:0">قائمة شروط الانتشار والربح</h2>${chk.map(c=>`<label><input type="checkbox">${c}</label>`).join('')}</div>`;
  $('#t2').querySelectorAll('[data-r]').forEach(b=>b.onclick=()=>{const i=+b.dataset.i,c=b.dataset.r=='c'?D.characters[i]:D.places[i];cp(b.dataset.r=='c'?cpr(c):ppr(c));b.textContent='تم النسخ ✓'});
  $('#cpr').onclick=e=>{cp(refs());e.target.textContent='تم النسخ ✓'};
+ const ent=(r,i)=>r=='c'?D.characters[i]:D.places[i],ep=(r,i)=>r=='c'?cpr(ent(r,i)):ppr(ent(r,i));
+ function showImg(r,i){const box=$(`.im[data-r="${r}"][data-i="${i}"]`),gb=$(`[data-gi="${r}${i}"]`);if(!box)return;
+  ig(ikey(r,i)).then(v=>{if(!box.isConnected)return;
+   if(isImg(v)){box.innerHTML=`<img src="${v}" alt="" style="width:100%;max-width:320px;border-radius:8px;margin-top:8px;display:block"><div class="acts"><button class="g" data-ia="dl">تنزيل</button><button class="g" data-ia="rm">حذف الصورة</button></div>`;
+    box.querySelector('[data-ia=dl]').onclick=()=>dlf(v,(ent(r,i).en||'image').replace(/\W+/g,'_')+'.'+v.slice(11,v.indexOf(';')).replace('jpeg','jpg'));
+    box.querySelector('[data-ia=rm]').onclick=async()=>{await idel(ikey(r,i));showImg(r,i)};
+    if(gb)gb.textContent='إعادة توليد الصورة'}
+   else{box.innerHTML='';if(gb)gb.textContent='توليد صورة'}})}
+ $('#t2').querySelectorAll('[data-gi]').forEach(b=>b.onclick=async()=>{const r=b.dataset.gi[0],i=+b.dataset.gi.slice(1),pid=D.id,key=ikey(r,i);
+  b.disabled=true;b.textContent='…جارٍ التوليد';
+  try{await is(key,await gimg(ep(r,i)))}catch(e){alert(e.message)}
+  b.disabled=false;if(D&&D.id==pid)showImg(r,i);else b.textContent='توليد صورة'});
+ $('#gall').onclick=async e=>{const b=e.target,pid=D.id,items=[...D.characters.map((c,i)=>['c',i]),...D.places.map((c,i)=>['p',i])];b.disabled=true;let n=0;
+  try{for(const [r,i] of items){if(!D||D.id!=pid)break;const key=ikey(r,i);if(await ig(key))continue;b.textContent='جارٍ التوليد '+(++n)+'…';await is(key,await gimg(ep(r,i)));if(D&&D.id==pid)showImg(r,i)}}catch(er){alert(er.message)}
+  b.disabled=false;b.textContent='توليد كل الصور الناقصة'};
+ D.characters.forEach((c,i)=>showImg('c',i));D.places.forEach((c,i)=>showImg('p',i));
+ $('#expp').onclick=async e=>{save();const n=await exportData([D],true,'flow-reel-'+(D.title||'project').replace(/[^\w\u0600-\u06FF]+/g,'_').slice(0,30));e.target.textContent='تم التصدير ✓'};
  $('#t2').querySelectorAll('[data-k]').forEach(b=>b.onclick=async()=>{const i=+b.dataset.i,k=b.dataset.k,s=D.scenes[i];
  if(k=='p'||k=='n'){cp(k=='p'?full(s):s.narration_ar);b.textContent='تم النسخ ✓';return}
  if(k=='e'){const v=prompt('عدّل البرومبت (English):',s.prompt_en);if(v){s.prompt_en=v;save();render()}return}
@@ -215,40 +334,6 @@ function render(){
  $('#dlt').onclick=()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([all()],{type:'text/plain'}));a.download='reels-package.txt';a.click()};
 }
 
-$('#files').onchange=e=>{files=files.concat([...e.target.files]);e.target.value='';list()};
-function list(){
- $('#ms').textContent=D&&files.length&&files.length!=D.scenes.length?'تنبيه: عدد المقاطع '+files.length+' ومشاهد الحزمة '+D.scenes.length:'';
- $('#fl').innerHTML=files.map((f,i)=>`<div class="fl"><b>${i+1}</b><span>${esc(f.name)}</span><button class="g" data-a="u" data-i="${i}">▲</button><button class="g" data-a="d" data-i="${i}">▼</button><button class="g" data-a="x" data-i="${i}">✕</button></div>`).join('');
- $('#fl').querySelectorAll('button').forEach(b=>b.onclick=()=>{const i=+b.dataset.i,a=b.dataset.a;
-  if(a=='x')files.splice(i,1);else{const j=a=='u'?i-1:i+1;if(j>=0&&j<files.length)[files[i],files[j]]=[files[j],files[i]]}list()});
-}
-$('#mg').onclick=async()=>{
- if(!files.length){$('#ms').textContent='أضف مقاطع أولاً';return}
- if(!window.MediaRecorder){$('#ms').textContent='المتصفح لا يدعم الدمج. استعمل Chrome.';return}
- $('#mg').disabled=true;
- const cv=document.createElement('canvas');cv.width=1080;cv.height=1920;const cx=cv.getContext('2d'),SUB=$('#sub').checked;let tot=0;
- const sub=t=>{if(!t)return;cx.font='bold 70px Tahoma,sans-serif';cx.textAlign='center';cx.lineJoin='round';cx.lineWidth=12;cx.strokeStyle='#000';cx.fillStyle='#fff';const L=[];let l='';t.split(' ').forEach(w=>{if((l+' '+w).length>16&&l){L.push(l);l=w}else l=l?l+' '+w:w});L.push(l);L.forEach((x,k)=>{cx.strokeText(x,540,1480+k*90);cx.fillText(x,540,1480+k*90)})};
- const ac=new AudioContext(),dst=ac.createMediaStreamDestination();
- const st=new MediaStream([...cv.captureStream(30).getVideoTracks(),...dst.stream.getAudioTracks()]);
- const mt=['video/mp4','video/webm;codecs=vp9,opus','video/webm'].find(t=>MediaRecorder.isTypeSupported(t));
- const rec=new MediaRecorder(st,{mimeType:mt,videoBitsPerSecond:12e6}),ch=[];
- rec.ondataavailable=e=>e.data.size&&ch.push(e.data);
- const done=new Promise(r=>rec.onstop=r);rec.start(500);
- for(let i=0;i<files.length;i++){
-  $('#ms').textContent=`جارٍ دمج المقطع ${i+1} من ${files.length}…`;
-  const v=document.createElement('video');v.src=URL.createObjectURL(files[i]);v.playsInline=true;
-  await new Promise(r=>v.onloadedmetadata=r);tot+=v.duration;
-  ac.createMediaElementSource(v).connect(dst);
-  const draw=()=>{const s=Math.max(1080/v.videoWidth,1920/v.videoHeight),w=v.videoWidth*s,h=v.videoHeight*s;cx.drawImage(v,(1080-w)/2,(1920-h)/2,w,h);if(SUB&&D)sub(D.scenes[i]?.onscreen_ar);if(!v.ended)requestAnimationFrame(draw)};
-  await ac.resume();await v.play();draw();
-  await new Promise(r=>v.onended=r);
- }
- rec.stop();await done;
- const ext=mt.includes('mp4')?'mp4':'webm',url=URL.createObjectURL(new Blob(ch,{type:mt}));
- $('#pv').src=url;$('#pv').classList.remove('hid');$('#dl').href=url;$('#dl').download='reels-final.'+ext;$('#dl').classList.remove('hid');
- $('#ms').textContent='تم الدمج ('+ext+') — المدة '+Math.round(tot)+' ث'+(tot<60?' ⚠ أقل من 60 ثانية: لن يؤهَّل لبرنامج المكافآت':' ✓')+'. إن رفض تيك توك الصيغة فحوّلها إلى mp4 عبر CapCut.';
- $('#mg').disabled=false;
-};
 if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
 </script>
 </body>
